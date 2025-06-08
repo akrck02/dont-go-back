@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://6h3322ygg2r0"]
+
+[ext_resource type="Script" path="res://characters/player.gd" id="1_umf4e"]
+[ext_resource type="Shader" path="res://shaders/floor.gdshader" id="2_4bmtu"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_xgoiu"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_arjg4"]
+height = 2.002
+
+[sub_resource type="QuadMesh" id="QuadMesh_50i8x"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cb1w4"]
+render_priority = 0
+shader = ExtResource("2_4bmtu")
+shader_parameter/pixel_size = 4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r8m3j"]
+next_pass = SubResource("ShaderMaterial_cb1w4")
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000736058, 0, 0)
+script = ExtResource("1_umf4e")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_xgoiu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.74182)
+visibility_parent = NodePath("../MeshInstance3D")
+shape = SubResource("CapsuleShape3D_arjg4")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.731861, -0.63221)
+current = true
+fov = 94.6
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Camera3D"]
+transform = Transform3D(0.00793976, -0.99965, -0.0252543, 0.998736, 0.00918083, -0.0494126, 0.0496272, -0.0248301, 0.998459, 0, -0.260345, 0)
+light_energy = 0.351
+shadow_enabled = true
+shadow_blur = 3.973
+distance_fade_enabled = true
+distance_fade_begin = 1.0
+distance_fade_length = 100.0
+spot_range = 8.465
+spot_angle = 30.0
+spot_angle_attenuation = 1.86607
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("QuadMesh_50i8x")
+surface_material_override/0 = SubResource("StandardMaterial3D_r8m3j")
